@@ -1,0 +1,1 @@
+Plan for generating this week's weekly summary charts.

@@ -1,0 +1,131 @@
+{
+  "tools": [
+    {
+      "name": "get_mock_data",
+      "description": "Return the demo team records, including roles and completed, assigned, capacity, and blocked task counts.",
+      "annotations": {
+        "title": "Get Team Status Data",
+        "readOnlyHint": true,
+        "destructiveHint": false
+      },
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "show_chart",
+      "description": "Render supplied records as a bar chart using the requested fields.",
+      "annotations": {
+        "title": "Show Bar Chart",
+        "readOnlyHint": true,
+        "destructiveHint": false
+      },
+      "_meta": {
+        "ui": {
+          "resourceUri": "ui://prefab/tool/f0d604e5456e/renderer.html",
+          "visibility": ["model"]
+        }
+      },
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "anyOf": [
+                  { "type": "integer" },
+                  { "type": "number" },
+                  { "type": "string" }
+                ]
+              }
+            }
+          },
+          "x_axis": { "type": "string" },
+          "y_axis": { "type": "string" },
+          "series_label": { "type": "string", "default": "Value" }
+        },
+        "required": ["data", "x_axis", "y_axis"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "show_line_chart",
+      "description": "Render supplied records as a line chart using the requested fields.",
+      "annotations": {
+        "title": "Show Line Chart",
+        "readOnlyHint": true,
+        "destructiveHint": false
+      },
+      "_meta": {
+        "ui": {
+          "resourceUri": "ui://prefab/tool/518636d37c5c/renderer.html",
+          "visibility": ["model"]
+        }
+      },
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "anyOf": [
+                  { "type": "integer" },
+                  { "type": "number" },
+                  { "type": "string" }
+                ]
+              }
+            }
+          },
+          "x_axis": { "type": "string" },
+          "y_axis": { "type": "string" },
+          "series_label": { "type": "string", "default": "Value" }
+        },
+        "required": ["data", "x_axis", "y_axis"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "show_pie_chart",
+      "description": "Render supplied records as a pie chart using label and value fields.",
+      "annotations": {
+        "title": "Show Pie Chart",
+        "readOnlyHint": true,
+        "destructiveHint": false
+      },
+      "_meta": {
+        "ui": {
+          "resourceUri": "ui://prefab/tool/5045b16efef6/renderer.html",
+          "visibility": ["model"]
+        }
+      },
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "anyOf": [
+                  { "type": "integer" },
+                  { "type": "number" },
+                  { "type": "string" }
+                ]
+              }
+            }
+          },
+          "name_key": { "type": "string" },
+          "value_key": { "type": "string" }
+        },
+        "required": ["data", "name_key", "value_key"],
+        "additionalProperties": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "team-status": {
+      "type": "http",
+      "url": "https://kj3l4dp1-8000.euw.devtunnels.ms/mcp"
+    }
+  }
+}

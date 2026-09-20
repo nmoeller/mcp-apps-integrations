@@ -1,0 +1,1 @@
+Plan for preparing the current week's delivery summary.

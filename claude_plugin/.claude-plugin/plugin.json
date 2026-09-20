@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "team-status-demo",
+  "displayName": "Team Status Demo",
+  "description": "Demonstrates a Claude plugin that combines a skill with an MCP server.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Cowork MCP Demo"
+  }
+}

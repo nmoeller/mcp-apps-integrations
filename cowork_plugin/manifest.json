@@ -1,0 +1,57 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.28/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.28",
+  "version": "1.0.0",
+  "id": "36cf7a57-20c7-4c54-a881-66df04ec16e8",
+  "developer": {
+    "name": "Cowork MCP Demo",
+    "websiteUrl": "https://example.com",
+    "privacyUrl": "https://example.com/privacy",
+    "termsOfUseUrl": "https://example.com/terms"
+  },
+  "name": {
+    "short": "Team Status Demo",
+    "full": "Team Status MCP Demo for Copilot Cowork"
+  },
+  "description": {
+    "short": "Summarize mock team delivery data through MCP.",
+    "full": "A small demonstration plugin that teaches Copilot Cowork to retrieve and summarize mock team delivery data from an MCP server."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#0F6CBD",
+  "validDomains": [
+    "cdn.jsdelivr.net"
+  ],
+  "agentSkills": [
+    {
+      "folder": "./skills/weekly-delivery-summary"
+    },
+    {
+      "folder": "./skills/team-workload"
+    },
+    {
+      "folder": "./skills/delivery-risk"
+    }
+  ],
+  "agentConnectors": [
+    {
+      "id": "team-status-mcp",
+      "displayName": "Team Status MCP Server",
+      "description": "Reads the mock team delivery dataset used by this demo.",
+      "toolSource": {
+        "remoteMcpServer": {
+          "mcpServerUrl": "https://kj3l4dp1-8000.euw.devtunnels.ms/mcp",
+          "mcpToolDescription": {
+            "file": "tools/team-status-tools.json"
+          },
+          "authorization": {
+            "type": "None"
+          }
+        }
+      }
+    }
+  ]
+}
