@@ -19,7 +19,6 @@ CHART_APP = PrefabAppConfig(
 skills_provider = SkillsDirectoryProvider(roots=Path(__file__).parent / "skills")
 mcp = FastMCP(name="CoworkMockDataServer", providers=[skills_provider])
 
-
 @mcp.resource("skill://index.json")
 def skill_index() -> str:
     return json.dumps({"skills": [

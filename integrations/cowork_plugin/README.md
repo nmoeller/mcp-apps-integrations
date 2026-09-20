@@ -1,30 +1,32 @@
 # Team Status Cowork Plugin
 
 This is a small Copilot Cowork plugin that mirrors the three skills and four
-read-only tools exposed by the MCP server in `../mock_data_server`.
+read-only tools exposed by the shared MCP server.
 The three chart tools use MCP Apps metadata to render Prefab UI widgets inline
 in Cowork. The package authorizes `cdn.jsdelivr.net`, which hosts the widget
 renderer assets declared by the server resource CSP.
+
+See the [root README](../../README.md) for the architecture and the
+[server README](../../mcp_servers/data_server/README.md) for its capabilities.
 
 ## Demo flow
 
 1. Start the MCP server:
 
    ```powershell
-   Set-Location ../mock_data_server
+   Set-Location mcp_servers/data_server
+   uv sync
    uv run python main.py
    ```
 
-2. Expose port 8000 through an HTTPS dev tunnel. The local protocol is HTTP:
+2. Create and host the persistent Dev Tunnel described in the
+   [root README](../../README.md#create-a-persistent-dev-tunnel). The server's
+   local protocol is HTTP, while Cowork receives a public HTTPS URL.
 
-   ```powershell
-   devtunnel host -p 8000 --allow-anonymous
-   ```
+3. Replace `mcpServerUrl` in `manifest.json` with the static tunnel URL followed
+   by `/mcp`.
 
-3. Replace `https://replace-with-your-tunnel.devtunnels.ms/mcp` in
-   `manifest.json` with the public HTTPS tunnel URL followed by `/mcp`.
-
-4. Build the package from this directory:
+4. Build the package from `integrations/cowork_plugin`:
 
    ```powershell
    Compress-Archive -Path manifest.json,color.png,outline.png,tools,skills -DestinationPath cowork-plugin.zip -Force

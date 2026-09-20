@@ -1,7 +1,7 @@
 {
 	"servers": {
 		"mock_data_server": {
-			"url": "https://kj3l4dp1-8000.euw.devtunnels.ms/mcp",
+			"url": "http://127.0.0.1:8000/mcp",
 			"type": "http"
 		}
 	},

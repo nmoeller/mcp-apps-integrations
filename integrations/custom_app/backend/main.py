@@ -40,6 +40,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
             disable_read_skill_resource_approval=True,
         )
 
+        # Chart Tools are injected via Middleware
         tools = MCPStreamableHTTPTool(
             name="cowork_mock_data",
             url=MCP_URL,
