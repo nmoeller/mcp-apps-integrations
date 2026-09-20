@@ -1,9 +1,9 @@
 # Bottom-Up MCP Apps and Skills
 
-This repository demonstrates how to keep an agent independent from any one MCP
-client. Instead of placing server-specific instructions in a system prompt, the
-MCP server publishes its tools, MCP Apps, and Skills. Each client can discover
-the same capabilities and decide how to use them.
+This repository demonstrates how to keep an agent truly independent from any
+one MCP client. The MCP server is the source of truth: it publishes its tools,
+portable MCP Apps, and Skills so every compatible client can discover the same
+capabilities, instructions, and user interface.
 
 The example is a team-delivery assistant. One MCP server exposes mock team data,
 three chart tools rendered as MCP Apps, and three reusable Skills:
@@ -14,22 +14,74 @@ three chart tools rendered as MCP Apps, and three reusable Skills:
 
 The same server can be used from Cowork, Claude, GitHub Copilot in VS Code, and
 a custom application. The agent behavior comes from the server and its Skills,
-not from a client-specific system prompt or a custom rendering format.
+while visualizations come from MCP Apps rather than client-specific rendering
+code.
+
+## Why this matters
+
+### One visualization, reusable across clients
+
+Many MCP integrations return structured data and then rely on each client to
+implement a custom visualization. That couples the experience to client-specific
+code: every client needs its own chart components, data mapping, styling, and
+maintenance. A visualization built for one client cannot simply be reused by
+another.
+
+This repository demonstrates the MCP Apps approach instead. The chart UI is
+declared by the MCP server and delivered through the MCP protocol. Clients that
+support MCP Apps can render the same bar, line, and pie chart experiences inline
+without reimplementing them. The visualization travels with the capability, so
+adding another compatible client does not require another custom UI integration.
+
+### One instruction source, consistent agent behavior
+
+Putting MCP-specific instructions into each client's system prompt creates a
+second portability problem. Cowork, Claude, GitHub Copilot, VS Code, and a custom
+agent would each maintain a separate copy. Those copies inevitably drift as
+prompts are edited, capabilities evolve, or one integration is updated before
+the others. The same user request can then produce different tool choices and
+different behavior depending on the client.
+
+The Skills in this repository keep task guidance with the MCP server capability.
+Each client receives the same workflow definitions for delivery summaries,
+workload analysis, and delivery risk. Client configuration is limited to
+connecting to the server; domain instructions remain server-owned, reusable,
+and versioned alongside the tools they describe.
 
 ## Architecture
 
-```text
-MCP server
-	|-- tools and mock data
-	|-- MCP Apps for portable inline UI
-	`-- Skills for task-specific agent guidance
-					|
-					+-- Cowork plugin -------- public HTTPS Dev Tunnel
-					+-- Claude plugin -------- public HTTPS Dev Tunnel
-					+-- GitHub/remote client - public HTTPS Dev Tunnel
-					+-- VS Code -------------- http://127.0.0.1:8000/mcp
-					`-- Custom app ----------- http://127.0.0.1:8000/mcp
+```mermaid
+flowchart LR
+	subgraph Server["MCP server: single source of truth"]
+		Skills["Skills<br/>Shared agent instructions"]
+		Tools["Tools and mock data<br/>Shared capabilities"]
+		Apps["MCP Apps<br/>Portable inline visualizations"]
+	end
+
+	Tunnel["Persistent Dev Tunnel<br/>Public HTTPS endpoint"]
+
+	subgraph Remote["Remote clients"]
+		Cowork["Cowork"]
+		Claude["Claude"]
+		GitHub["GitHub client"]
+	end
+
+	subgraph Local["Local clients"]
+		VSCode["GitHub Copilot in VS Code"]
+		Custom["Custom application"]
+	end
+
+	Server -->|"http://127.0.0.1:8000/mcp"| Tunnel
+	Tunnel --> Cowork
+	Tunnel --> Claude
+	Tunnel --> GitHub
+	Server -->|"localhost"| VSCode
+	Server -->|"localhost"| Custom
 ```
+
+Every client receives the same server-owned instructions, tools, and MCP App UI.
+Only the connection path changes: remote clients use the HTTPS tunnel, while
+local clients connect directly to localhost.
 
 ## Repository layout
 
