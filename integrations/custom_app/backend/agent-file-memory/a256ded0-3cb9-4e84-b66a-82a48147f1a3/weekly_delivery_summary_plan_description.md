@@ -1,1 +1,0 @@
-Plan and checked source data for the weekly delivery summary.

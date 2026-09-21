@@ -1,3 +1,0 @@
-# Memory Index
-
-- **weekly_summary_plan.md**: Plan for generating the user's weekly delivery summary for the week ending September 20, 2026.

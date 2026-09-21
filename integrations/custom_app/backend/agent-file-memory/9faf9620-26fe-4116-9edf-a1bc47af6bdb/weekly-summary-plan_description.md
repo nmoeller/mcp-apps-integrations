@@ -1,1 +1,0 @@
-Plan for producing the user's weekly delivery summary.

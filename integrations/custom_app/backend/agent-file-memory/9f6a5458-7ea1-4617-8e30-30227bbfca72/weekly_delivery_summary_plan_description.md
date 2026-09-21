@@ -1,1 +1,0 @@
-Plan for the weekly delivery summary ending September 20, 2026.

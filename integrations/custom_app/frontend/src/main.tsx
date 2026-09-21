@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import '@copilotkit/react-core/v2/styles.css';
+import './styles.css';
 import { CopilotChat, CopilotKitProvider, type ReactActivityMessageRenderer } from '@copilotkit/react-core/v2';
 import { HttpAgent } from '@ag-ui/client';
 import { Client, StreamableHTTPClientTransport } from '@modelcontextprotocol/client';
@@ -81,11 +82,11 @@ function App() {
         { activityType: 'mcp-apps', content: mcpAppContent, render: ({ content }) => <McpApp content={content} /> },
       ]}
     >
-      <div style={{ height: '100vh', padding: 16, boxSizing: 'border-box' }}>
-        <div style={{ height: '100%', width: '100%', maxWidth: 1100, margin: '0 auto' }}>
+      <main className="app-shell">
+        <section className="chat-surface" aria-label="Chat">
           <CopilotChat agentId="default" style={{ height: '100%' }} />
-        </div>
-      </div>
+        </section>
+      </main>
     </CopilotKitProvider>
   );
 }
