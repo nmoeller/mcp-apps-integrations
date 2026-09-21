@@ -43,7 +43,7 @@
       "description": "Reads the mock team delivery dataset used by this demo.",
       "toolSource": {
         "remoteMcpServer": {
-          "mcpServerUrl": "https://kj3l4dp1-8000.euw.devtunnels.ms/mcp",
+          "mcpServerUrl": "https://<YOUR_DEV_TUNNEL>/mcp",
           "mcpToolDescription": {
             "file": "tools/team-status-tools.json"
           },
