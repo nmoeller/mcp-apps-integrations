@@ -11,24 +11,41 @@ See the [root README](../../README.md) for the architecture and the
 
 ## Demo flow
 
-1. Start the MCP server:
+1. Start the MCP server from the repository root in a separate terminal. The
+   server must remain running for the entire demo:
 
    ```powershell
-   Set-Location mcp_servers/data_server
+   cd mcp_servers/data_server
    uv sync
    uv run python main.py
    ```
 
-2. Create and host the persistent Dev Tunnel described in the
-   [root README](../../README.md#create-a-persistent-dev-tunnel). The server's
-   local protocol is HTTP, while Cowork receives a public HTTPS URL.
-
-3. Replace `mcpServerUrl` in `manifest.json` with the static tunnel URL followed
-   by `/mcp`.
-
-4. Build the package from `integrations/cowork_plugin`:
+2. Cowork needs a public HTTPS endpoint. Install the Dev Tunnels CLI if needed,
+   then create and host a named persistent tunnel:
 
    ```powershell
+   winget install Microsoft.devtunnel
+   devtunnel user login
+   devtunnel create my-mcp-tunnel --allow-anonymous
+   devtunnel port create my-mcp-tunnel -p 8000 --protocol http
+   devtunnel host my-mcp-tunnel
+   ```
+
+   Keep the tunnel running. Restart it later with
+   `devtunnel host my-mcp-tunnel` to reuse the same URL. Do not use
+   `devtunnel host -p 8000`, which creates a temporary URL.
+
+3. Copy the `Connect via browser` URL, append `/mcp`, and replace
+   `mcpServerUrl` in `manifest.json`:
+
+   ```text
+   https://<tunnel-host>.devtunnels.ms/mcp
+   ```
+
+4. From the repository root, enter the plugin directory and build the package:
+
+   ```powershell
+   cd integrations/cowork_plugin
    Compress-Archive -Path manifest.json,color.png,outline.png,tools,skills -DestinationPath cowork-plugin.zip -Force
    ```
 

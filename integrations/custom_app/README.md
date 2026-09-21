@@ -10,31 +10,42 @@ Read the [repository overview](../../README.md), the
 
 ## Run locally
 
-No Dev Tunnel is required. Open three terminals from the repository root.
+No Dev Tunnel is required. Open three terminals from the repository root. The
+MCP server in step 1 must remain running while the backend and frontend are in
+use.
 
 1. Start the MCP server on `http://127.0.0.1:8000/mcp`:
 
    ```powershell
-   Set-Location mcp_servers/data_server
+   cd mcp_servers/data_server
    uv sync
    uv run python main.py
    ```
 
-2. Configure Azure OpenAI and start the backend on `http://127.0.0.1:8888/`:
+2. Create `integrations/custom_app/backend/.env` with the Foundry project and
+   model deployment:
+
+   ```dotenv
+   FOUNDRY_PROJECT_ENDPOINT=https://<resource>.services.ai.azure.com/api/projects/<project-name>
+   FOUNDRY_MODEL=<model-deployment-name>
+   ```
+
+   Then authenticate and start the backend on `http://127.0.0.1:8888/`:
 
    ```powershell
-   Set-Location integrations/custom_app/backend
+   cd integrations/custom_app/backend
    uv sync --prerelease=allow
    az login
-   $env:AZURE_OPENAI_ENDPOINT = "https://<resource>.openai.azure.com/"
-   $env:AZURE_OPENAI_CHAT_COMPLETION_MODEL = "<deployment-name>"
    uv run --frozen python main.py
    ```
+
+   The backend loads `.env` automatically and authenticates with
+   `DefaultAzureCredential`.
 
 3. Install and start the frontend:
 
    ```powershell
-   Set-Location integrations/custom_app/frontend
+   cd integrations/custom_app/frontend
    npm install
    npm run dev
    ```

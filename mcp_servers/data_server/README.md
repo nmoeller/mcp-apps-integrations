@@ -17,8 +17,7 @@ The Streamable HTTP endpoint is `http://127.0.0.1:8000/mcp`.
 
 VS Code and the [custom app](../../integrations/custom_app/README.md) connect to
 this localhost URL. Cowork, Claude, and remote GitHub clients use the same local
-process through the persistent Dev Tunnel documented in the
-[root README](../../README.md#create-a-persistent-dev-tunnel).
+process through persistent Dev Tunnels documented in their integration guides.
 
 ## Published capabilities
 
@@ -49,4 +48,4 @@ skills that provide different instructions and intent.
 - [Claude](../../integrations/claude_plugin/README.md)
 - [GitHub](../../integrations/github_plugin/README.md)
 - [Custom app](../../integrations/custom_app/README.md)
-- [VS Code](../../README.md#use-the-server-from-vs-code)
+- [VS Code](../../.vscode/README.md)

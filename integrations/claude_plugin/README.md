@@ -10,24 +10,52 @@ See the [root README](../../README.md) for the architecture and the
 
 ## Run the demo
 
-Start the MCP server from the repository root in one terminal:
+### 1. Start the MCP server
+
+The MCP server must be running for the entire demo. From the repository root,
+start it in a separate terminal:
 
 ```powershell
-Set-Location mcp_servers/data_server
+cd mcp_servers/data_server
 uv sync
 uv run python main.py
 ```
 
-Claude needs a public HTTPS endpoint. Create and host the persistent tunnel as
-described in the [root README](../../README.md#create-a-persistent-dev-tunnel),
-then replace the URL in `.mcp.json` with its static URL followed by `/mcp`.
+Leave this terminal running. The local endpoint is
+`http://127.0.0.1:8000/mcp`.
 
-## Package and upload without the Claude CLI
+### 2. Create a persistent Dev Tunnel
+
+Claude needs a public HTTPS endpoint. Install the Dev Tunnels CLI if needed,
+then sign in and create a named tunnel once:
+
+```powershell
+winget install Microsoft.devtunnel
+devtunnel user login
+devtunnel create my-mcp-tunnel --allow-anonymous
+devtunnel port create my-mcp-tunnel -p 8000 --protocol http
+devtunnel host my-mcp-tunnel
+```
+
+Keep the tunnel running. The named tunnel retains the same URL when restarted
+with `devtunnel host my-mcp-tunnel`. Do not use `devtunnel host -p 8000`, which
+creates a temporary URL.
+
+### 3. Configure the MCP URL
+
+Copy the `Connect via browser` URL printed by the CLI, append `/mcp`, and replace
+the `url` value in `.mcp.json`:
+
+```text
+https://<tunnel-host>.devtunnels.ms/mcp
+```
+
+### 4. Package and upload without the Claude CLI
 
 From the repository root, create an uploadable ZIP package:
 
 ```powershell
-Set-Location integrations/claude_plugin
+cd integrations/claude_plugin
 Compress-Archive -Path .claude-plugin,.mcp.json,skills -DestinationPath team-status-claude-plugin.zip -Force
 ```
 

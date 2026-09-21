@@ -10,7 +10,10 @@ Prerequisites:
 
 - Python 3.13 or later
 - `uv`
-- Azure CLI authentication with access to an Azure OpenAI deployment
+- Azure CLI authentication with access to a Microsoft Foundry project
+- The repository's MCP server running at `http://127.0.0.1:8000/mcp`
+
+Keep the MCP server running in a separate terminal while using this backend.
 
 From this directory, install the prerelease Agent Framework packages:
 
@@ -19,14 +22,17 @@ uv sync --prerelease=allow
 az login
 ```
 
-Configure the Azure OpenAI resource and deployment:
+Create a `.env` file in this directory with the Foundry project endpoint and
+model deployment used by `FoundryChatClient`:
 
-```powershell
-$env:AZURE_OPENAI_ENDPOINT = "https://<resource>.openai.azure.com/"
-$env:AZURE_OPENAI_CHAT_COMPLETION_MODEL = "<deployment-name>"
-# Optional when the service default is not suitable:
-$env:AZURE_OPENAI_API_VERSION = "<api-version>"
+```dotenv
+FOUNDRY_PROJECT_ENDPOINT=https://<resource>.services.ai.azure.com/api/projects/<project-name>
+FOUNDRY_MODEL=<model-deployment-name>
 ```
+
+The backend loads this file automatically. Authentication uses
+`DefaultAzureCredential`, so no API key belongs in `.env`; `az login` supplies
+the local developer credential.
 
 Start the server:
 
