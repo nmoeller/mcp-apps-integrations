@@ -52,4 +52,12 @@ See the [root README](../../README.md) for the architecture and the
 5. Install `cowork-plugin.zip` with Microsoft 365 Agents Toolkit or upload it as
    a custom app. Try: **Give me the weekly team status.**
 
+6. Upload the Plugin to Cowork
+
+![alt text](../../images/cowork_upload_plugin.png)
+
+![alt text](../../images/cowork_upload_plugin_2.png)
+
+![alt text](../../images/cowork_upload_plugin_3.png)
+
 The URLs under `developer` are demo placeholders. Replace them before publishing.

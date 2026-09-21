@@ -50,7 +50,7 @@ the `url` value in `.mcp.json`:
 https://<tunnel-host>.devtunnels.ms/mcp
 ```
 
-### 4. Package and upload without the Claude CLI
+### 4. Package and upload 
 
 From the repository root, create an uploadable ZIP package:
 
@@ -62,6 +62,15 @@ Compress-Archive -Path .claude-plugin,.mcp.json,skills -DestinationPath team-sta
 The archive root must contain `.claude-plugin/`, `.mcp.json`, and `skills/`.
 Upload `team-status-claude-plugin.zip` through the Claude client's plugin upload
 interface, then enable the plugin. No Claude CLI installation is required.
+
+### 5. Upload the Plugin to Claude
+
+![alt text](../../images/claude_upload_plugin.png)
+
+![alt text](../../images/claude_upload_plugin_2.png)
+
+![alt text](../../images/claude_upload_plugin_3.png)
+
 
 Try any of these prompts:
 
