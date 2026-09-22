@@ -1,39 +1,71 @@
-# GitHub Integration
+# Team Status GitHub Copilot CLI Plugin
 
-This directory is reserved for the packaged GitHub integration. The working
-GitHub Copilot example in this repository currently uses the VS Code MCP
-configuration at `.vscode/mcp.json`.
+This [Agent Plugins 1.0](https://agent-plugins.org/) package extends GitHub
+Copilot CLI with three team-delivery skills and the shared team-status MCP
+server:
 
-For local GitHub Copilot use in VS Code, follow the
-[VS Code README](../../.vscode/README.md). It connects directly to
-`http://127.0.0.1:8000/mcp` and does not require a Dev Tunnel.
+- `weekly-delivery-summary`
+- `team-workload`
+- `delivery-risk`
 
-## Connect a remote GitHub client
+The plugin follows GitHub's
+[plugin creation guide](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-creating).
 
-The MCP server must already be running on `http://127.0.0.1:8000/mcp`. Keep its
-terminal running throughout the demo.
+## Prerequisites
 
-A GitHub-hosted or otherwise remote client cannot reach localhost. Install the
-Dev Tunnels CLI if needed, then create and host a named persistent tunnel:
+- GitHub Copilot CLI
+- Python 3.13 or later
+- `uv`
+
+## Run the demo
+
+### 1. Start the MCP server
+
+From the repository root, start the server in a separate terminal:
 
 ```powershell
-winget install Microsoft.devtunnel
-devtunnel user login
-devtunnel create my-mcp-tunnel --allow-anonymous
-devtunnel port create my-mcp-tunnel -p 8000 --protocol http
-devtunnel host my-mcp-tunnel
+cd mcp_servers/data_server
+uv sync
+uv run python main.py
 ```
 
-Keep the tunnel running. Restart it with `devtunnel host my-mcp-tunnel` to reuse
-the same URL. In the remote GitHub client's MCP configuration, replace its server
-URL with the `Connect via browser` URL followed by `/mcp`:
+Keep it running at `http://127.0.0.1:8000/mcp` while using the plugin.
+
+### 2. Install the plugin
+
+From the repository root:
+
+```powershell
+copilot plugin install ./integrations/github_plugin
+copilot plugin list
+```
+
+Copilot CLI caches directly installed plugins. Run the install command again
+after changing this plugin.
+
+### 3. Verify and use it
+
+Start an interactive Copilot CLI session:
+
+```powershell
+copilot
+```
+
+Use `/skills list` to confirm that the three skills loaded and `/mcp` to confirm
+that the `team-status` server is connected. Then try:
 
 ```text
-https://<tunnel-host>.devtunnels.ms/mcp
+Give me the weekly delivery summary.
+Who is above or below weekly capacity?
+Where is blocked work putting delivery at risk?
 ```
 
-The server remains unchanged: its Skills and MCP Apps are the source of agent
-guidance and UI behavior.
+The skills call the server's data and chart tools. See the
+[MCP server README](../../mcp_servers/data_server/README.md) for the shared
+capabilities.
 
-See the [MCP server README](../../mcp_servers/data_server/README.md) for the
-capabilities shared by all clients.
+## Uninstall
+
+```powershell
+copilot plugin uninstall team-status-demo
+```

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "team-status-demo",
+  "version": "1.0.0",
+  "description": "Team delivery summaries, workload analysis, and delivery risk insights backed by the team-status MCP server.",
+  "author": {
+    "name": "MCP Apps Integrations Demo"
+  },
+  "keywords": [
+    "team-status",
+    "delivery",
+    "workload",
+    "mcp"
+  ]
+}
